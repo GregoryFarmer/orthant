@@ -1,0 +1,24 @@
+{
+  "name": "orthant",
+  "version": "1.0.0",
+  "description": "This is the server code for https://www.orthant.net/. It consists of multiple applications.",
+  "homepage": "https://github.com/GregoryFarmer/orthant#readme",
+  "bugs": {
+    "url": "https://github.com/GregoryFarmer/orthant/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GregoryFarmer/orthant.git"
+  },
+  "license": "ISC",
+  "author": "Gregory Farmer",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/index.mjs"
+  },
+  "dependencies": {
+    "express": "^5.2.1",
+    "socket.io": "^4.8.3"
+  }
+}
