@@ -34,12 +34,25 @@ app.get(`/`, (req, res) => {
 });
 
 io.on(`connection`, (socket) => {
+  socket.username = socket.handshake.auth.username || `Anonymous`;
+
   io.emit(`message`,`${socket.id} connected!`);
 
-  socket.on(`message`, (data) => {
-    console.log(`Message received:`, data);
-    io.emit(`message`, `${socket.id}: ${data}`);
+  socket.on(`message`, (text) => {
+    socket.broadcast.emit(`message`, {
+      text,
+      username: socket.username
+    });
   });
+
+   socket.on(`typing`, (isTyping) => {
+    socket.broadcast.emit(`typing`, {
+      userId: socket.id,
+      username: socket.username,
+      typing: isTyping
+    });
+  });
+
 
   socket.on(`disconnect`, (reason) => {
     io.emit(`message`,`${socket.id} disconnected: ${reason}`);
