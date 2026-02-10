@@ -20,7 +20,7 @@ io.on(`connection`, (socket) => {
 
   socket.on(`message`, (data) => {
     console.log(`Message received:`, data);
-    socket.emit(`message`, `Echo: ${data}`);
+    io.emit(`message`, `${socket.id}: ${data}`);
   });
 
   socket.on(`disconnect`, (reason) => {
