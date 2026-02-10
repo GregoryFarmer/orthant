@@ -16,7 +16,7 @@ app.get(`/`, (req, res) => {
 });
 
 io.on(`connection`, (socket) => {
-  console.log(`${socket.id} connected!`);
+  io.emit(`${socket.id} connected!`);
 
   socket.on(`message`, (data) => {
     console.log(`Message received:`, data);
@@ -24,7 +24,7 @@ io.on(`connection`, (socket) => {
   });
 
   socket.on(`disconnect`, (reason) => {
-    console.log(`${socket.id} disconnected:`, reason);
+    io.emit(`${socket.id} disconnected: ${reason}`);
   });
 });
 
