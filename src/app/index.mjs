@@ -21,17 +21,17 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
     cookie: { maxAge: 1000 * 3600 * 24 }
-}))
-
-app.get(`/`, (req, res) => {
-  res.status(200).json({code: 200, message: `OK`});
-});
+}));
 
 const messaging_router = express.Router();
 messaging_router.get(`/`, async (req, res) => {
   res.send(`Messaging test`)
 })
-app.use(subdomain('messaging', messaging_router))
+app.use(subdomain('messaging', messaging_router));
+
+app.get(`/`, (req, res) => {
+  res.status(200).json({code: 200, message: `OK`});
+});
 
 io.on(`connection`, (socket) => {
   io.emit(`message`,`${socket.id} connected!`);
