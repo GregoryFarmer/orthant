@@ -1,33 +1,35 @@
-import express from 'express';
-import http from 'node:http';
-import { Server } from 'socket.io';
+/**
+ * February 6th, 2026
+ * This is the starting file for Gregory Michael Farmer's website.
+ * 
+ * @author Gregory Michael Farmer
+ */
+await console.clear();
 
-const app = express();
-const server = http.createServer(app);
+import { createRequire } from 'node:module';
+import packaging from '../package.json' with {type: 'json'};
+import color, {colors} from '#util/color.js';
+const require = createRequire(import.meta.url);
+require(`dotenv`).config();
 
-const io = new Server(server, {
-  cors: {
-    origin: `*`, 
-  },
+Object.assign(global, {
+    require,
+    package: packaging,
+    color: color, colors: colors,
+    app: {
+        name: `Orthant`,
+    }
 });
 
-app.get(`/`, (req, res) => {
-  res.status(200).json({code: 200, message: `OK`});
-});
+import serviceRegistry from '#services/index.mjs';
+const services = global.services = await serviceRegistry.init();
+const database = global.database = new (services.getService(`database`));
+await database.connect();
 
-io.on(`connection`, (socket) => {
-  io.emit(`message`,`${socket.id} connected!`);
+console.log(`
+${color(`${packaging.name} (Version ${packaging.version})`, colors.backgrounds.white, colors.black)}
+By @${packaging.author}
+${packaging.description}
+`)
 
-  socket.on(`message`, (data) => {
-    console.log(`Message received:`, data);
-    io.emit(`message`, `${socket.id}: ${data}`);
-  });
-
-  socket.on(`disconnect`, (reason) => {
-    io.emit(`message`,`${socket.id} disconnected: ${reason}`);
-  });
-});
-
-server.listen(8080, () => {
-  console.log(`Server listening on http://localhost:8080`);
-});
+await import(`#apps/index.mjs`);

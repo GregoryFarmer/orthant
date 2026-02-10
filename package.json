@@ -14,11 +14,21 @@
   "author": "Gregory Farmer",
   "type": "module",
   "main": "index.js",
+  "imports": {
+    "#src/*": "./src/*",
+    "#util/*": "./src/utils/*",
+    "#apps/*": "./src/app/*",
+    "#services/*": "./src/services/*"
+  },
   "scripts": {
     "start": "node src/index.mjs"
   },
   "dependencies": {
+    "dotenv": "^17.2.4",
     "express": "^5.2.1",
+    "express-session": "^1.19.0",
+    "express-subdomain": "^1.0.6",
+    "mongodb": "^7.1.0",
     "socket.io": "^4.8.3"
   }
 }
