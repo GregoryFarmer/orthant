@@ -4,6 +4,8 @@
  * 
  * @author Gregory Michael Farmer
  */
+
+// Working!
 await console.clear();
 
 import { createRequire } from 'node:module';
